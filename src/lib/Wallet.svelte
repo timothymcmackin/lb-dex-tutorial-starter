@@ -10,83 +10,27 @@
   let walletName = "";
 
   const getWalletInfo = async (wallet: BeaconWallet) => {
-    // finds account info
-    const walletInfo = await wallet.client.getActiveAccount();
-    if (walletInfo?.network?.type) {
-      connectedNetwork = walletInfo.network.type;
-    } else {
-      connectedNetwork = "";
-    }
-    // finds wallet icon
-    const info = await wallet.client.getPeers();
-    walletName = (info[0] as any).name;
-    if (Array.isArray(info) && (info[0] as any).icon) {
-      walletIcon = (info[0] as any).icon;
-    }
+
+    // TUTORIAL TODO
+
   };
 
   const connectWallet = async () => {
-    if (!$store.wallet) {
-      const wallet = new BeaconWallet({
-        name: "Tezos dev portal dapp tutorial",
-        preferredNetwork: network
-      });
-      store.updateWallet(wallet);
-    }
 
-    await $store.wallet.requestPermissions({
-      network: { type: network, rpcUrl }
-    });
-    const userAddress = (await $store.wallet.getPKH()) as TezosAccountAddress;
-    store.updateUserAddress(userAddress);
-    $store.Tezos.setWalletProvider($store.wallet);
-    // finds account info
-    await getWalletInfo($store.wallet);
-    // fetches user's XTZ, tzBTC and SIRS balances
-    const res = await fetchBalances($store.Tezos, userAddress);
-    if (res) {
-      store.updateUserBalance("XTZ", res.xtzBalance);
-      store.updateUserBalance("tzBTC", res.tzbtcBalance);
-      store.updateUserBalance("SIRS", res.sirsBalance);
-    } else {
-      store.updateUserBalance("XTZ", null);
-      store.updateUserBalance("tzBTC", null);
-      store.updateUserBalance("SIRS", null);
-    }
+    // TUTORIAL TODO
+
   };
 
   const disconnectWallet = async () => {
-    $store.wallet.client.clearActiveAccount();
-    store.updateWallet(undefined);
-    store.updateUserAddress(undefined);
-    connectedNetwork = "";
-    walletIcon = "";
+
+    // TUTORIAL TODO
+
   };
 
   onMount(async () => {
-    const wallet = new BeaconWallet({
-      name: "Tezos dev portal dapp tutorial",
-      preferredNetwork: network
-    });
-    store.updateWallet(wallet);
-    const activeAccount = await wallet.client.getActiveAccount();
-    if (activeAccount) {
-      const userAddress = (await wallet.getPKH()) as TezosAccountAddress;
-      store.updateUserAddress(userAddress);
-      $store.Tezos.setWalletProvider(wallet);
-      await getWalletInfo(wallet);
-      // fetches user's XTZ, tzBTC and SIRS balances
-      const res = await fetchBalances($store.Tezos, userAddress);
-      if (res) {
-        store.updateUserBalance("XTZ", res.xtzBalance);
-        store.updateUserBalance("tzBTC", res.tzbtcBalance);
-        store.updateUserBalance("SIRS", res.sirsBalance);
-      } else {
-        store.updateUserBalance("XTZ", null);
-        store.updateUserBalance("tzBTC", null);
-        store.updateUserBalance("SIRS", null);
-      }
-    }
+
+    // TUTORIAL TODO
+
   });
 </script>
 

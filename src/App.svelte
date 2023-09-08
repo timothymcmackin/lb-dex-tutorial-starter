@@ -10,28 +10,9 @@
   import { fetchExchangeRates } from "./utils";
 
   onMount(async () => {
-    const Tezos = new TezosToolkit(rpcUrl);
-    store.updateTezos(Tezos);
-    const contract = await Tezos.wallet.at(dexAddress);
-    const storage: Storage | undefined = await contract.storage();
 
-    if (storage) {
-      store.updateDexInfo({ ...storage });
-    }
+    // TUTORIAL TODO
 
-    // fetches XTZ and tzBTC prices
-    const res = await fetchExchangeRates();
-    if (res) {
-      store.updateExchangeRates([
-        { token: "XTZ", exchangeRate: res.xtzPrice },
-        { token: "tzBTC", exchangeRate: res.tzbtcPrice }
-      ]);
-    } else {
-      store.updateExchangeRates([
-        { token: "XTZ", exchangeRate: null },
-        { token: "tzBTC", exchangeRate: null }
-      ]);
-    }
   });
 </script>
 

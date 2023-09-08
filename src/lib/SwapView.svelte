@@ -104,59 +104,9 @@
 
   const swap = async () => {
     try {
-      if (isNaN(+inputFrom) || isNaN(+inputTo)) {
-        return;
-      }
-      swapStatus = TxStatus.Loading;
-      store.updateToast(true, "Waiting to confirm the swap...");
 
-      const lbContract = await $store.Tezos.wallet.at(dexAddress);
-      const deadline = calcDeadline();
-      if (tokenFrom === "tzBTC") {
-        // selling tzbtc for xtz => tokenToXTZ
-        const tzBtcContract = await $store.Tezos.wallet.at(tzbtcAddress);
-        const tokensSold = Math.floor(+inputFrom * 10 ** tzBTC.decimals);
-        let batch = $store.Tezos.wallet
-          .batch()
-          .withContractCall(tzBtcContract.methods.approve(dexAddress, 0))
-          .withContractCall(
-            tzBtcContract.methods.approve(dexAddress, tokensSold)
-          )
-          .withContractCall(
-            lbContract.methods.tokenToXtz(
-              $store.userAddress,
-              tokensSold,
-              minimumOutput,
-              deadline
-            )
-          )
-          .withContractCall(tzBtcContract.methods.approve(dexAddress, 0));
-        const batchOp = await batch.send();
-        await batchOp.confirmation();
-      } else {
-        // selling xtz for tzbtc => xtzToToken
-        const op = await lbContract.methods
-          .xtzToToken($store.userAddress, minimumOutput, deadline)
-          .send({ amount: +inputFrom });
-        await op.confirmation();
-      }
-      inputFrom = "";
-      inputTo = "";
-      minimumOutput = 0;
-      swapStatus = TxStatus.Success;
-      // fetches user's XTZ, tzBTC and SIRS balances
-      const res = await fetchBalances($store.Tezos, $store.userAddress);
-      if (res) {
-        store.updateUserBalance("XTZ", res.xtzBalance);
-        store.updateUserBalance("tzBTC", res.tzbtcBalance);
-        store.updateUserBalance("SIRS", res.sirsBalance);
-      } else {
-        store.updateUserBalance("XTZ", null);
-        store.updateUserBalance("tzBTC", null);
-        store.updateUserBalance("SIRS", null);
-      }
+      // TUTORIAL TODO
 
-      store.updateToast(true, "Swap successful!");
     } catch (error) {
       console.log(error);
       swapStatus = TxStatus.Error;
